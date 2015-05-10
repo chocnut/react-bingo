@@ -1,8 +1,10 @@
 var Game = React.createClass({
   render: function() {
     return (
-      <div className="grid">
-        <Grid data={this.props.tableData} />
+      <div>
+        <div className="grid">
+          <Grid data={this.props.tableData} />
+        </div>
       </div>
     );
   }
@@ -23,16 +25,33 @@ var Grid = React.createClass({
   },
   rowNodes: function() {
     var placeHolder = [];
+    var that = this;
     var tiles = this.listMatrix().map(function(numbers) {
       for(n in numbers) {
-        placeHolder.push(<Tile data={numbers[n]} />);
+        placeHolder.push(<Tile data={numbers[n]} currentNumber={that.state.currentNumber} />);
       }
     });
     return placeHolder;
   },
+  getInitialState: function() {
+    var originalNumbers = this.props.data;
+    var randomIndex = Math.floor(Math.random() * originalNumbers.length);
+    var modifiedNumbers = originalNumbers[randomIndex];
+    return {currentNumber: modifiedNumbers};
+  },
+  updateCurrentNumberLabel: function() {
+    var originalNumbers = this.props.data;
+    var randomIndex = Math.floor(Math.random() * originalNumbers.length);
+    var modifiedNumbers = originalNumbers[randomIndex];
+    this.setState({currentNumber: modifiedNumbers});
+  },
   render: function() {
     return (
       <div>
+        <div>
+          <button onClick={this.updateCurrentNumberLabel}>Next!</button>
+          <p>Current Number: {this.state.currentNumber}</p>
+        </div>
         { this.rowNodes() }
       </div>
     );
@@ -40,9 +59,19 @@ var Grid = React.createClass({
 });
 
 var Tile = React.createClass({
+  getInitialState: function() {
+    var name = (this.props.data === this.props.currentNumber) ? 'tile active' : 'tile';
+    return {className: name};
+  },
+  componentWillReceiveProps: function(nextProps) {
+    this.setState({className: 'tile active'});
+  },
+  shouldComponentUpdate:function(nextProps, nextState) {
+    return nextProps.data === nextProps.currentNumber;
+  },
   render: function() {
     return (
-      <div className="tile">
+      <div className={this.state.className}>
         {this.props.data}
       </div>
     );
