@@ -1,14 +1,14 @@
 var Game = React.createClass({
   render: function() {
     return (
-      <div className="card-container">
-        <CardTable data={this.props.tableData} />
+      <div className="grid">
+        <Grid data={this.props.tableData} />
       </div>
     );
   }
 });
 
-var CardTable = React.createClass({
+var Grid = React.createClass({
   listMatrix: function() {
     var matrix = [], k, i;
     var data = this.props.data
@@ -22,34 +22,29 @@ var CardTable = React.createClass({
     return matrix;
   },
   rowNodes: function() {
-    rows = [];
-    for(var i=0; i < 9; i++) {
-      rows.push(<CardTableRow cols={this.listMatrix()[i]} />);
-    }
-    return rows;
+    var placeHolder = [];
+    var tiles = this.listMatrix().map(function(numbers) {
+      for(n in numbers) {
+        placeHolder.push(<Tile data={numbers[n]} />);
+      }
+    });
+    return placeHolder;
   },
   render: function() {
     return (
-      <div className="card-table">
-        <table>
-          { this.rowNodes() }
-        </table>
+      <div>
+        { this.rowNodes() }
       </div>
     );
   }
 });
 
-var CardTableRow = React.createClass({
+var Tile = React.createClass({
   render: function() {
-    var colsNode =  this.props.cols.map(function(colNum){
-      return (
-        <td>{colNum}</td>
-        );
-    });
     return (
-      <tr>
-        {colsNode}
-      </tr>
+      <div className="tile">
+        {this.props.data}
+      </div>
     );
   }
 });

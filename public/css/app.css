@@ -1,0 +1,31 @@
+#main {
+  margin: 0px auto;
+  width: 630px;
+}
+
+.grid, .grid * {
+  box-sizing: content-box;
+}
+
+.grid {
+  padding: 0;
+  margin: 0;
+  float: left;
+  outline: 1px solid #b4b4b4;
+}
+
+.grid .tile {
+  color: white;
+  background-color: #00b9f3;
+  width: 70px;
+  height: 60px;
+  outline: 1px solid #ffffff;
+  float: left;
+  line-height: 67px;
+  text-align: center;
+  font-size: 30px;
+}
+
+.grid .tile.active {
+  background-color: #3abf5e;
+}
