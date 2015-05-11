@@ -67,10 +67,12 @@ var Grid = React.createClass({
   render: function() {
     return (
       <div>
-        <div>
-          <button onClick={this.updateCurrentNumberLabel}>Next!</button>
-          <p>Current Number: {this.state.currentNumber}</p>
-          { this.displayLastNumbers() }
+        <div className="info-container">
+          <div className="btn"><button onClick={this.updateCurrentNumberLabel} className="clouds-flat-button">Next!</button></div>
+          <div className="called-numbers">{ this.displayLastNumbers() }</div>
+        </div>
+        <div className="current-number">
+          <span>{this.state.currentNumber}</span>
         </div>
         { this.rowNodes() }
       </div>
@@ -84,7 +86,7 @@ var Tile = React.createClass({
     return {className: name};
   },
   componentWillReceiveProps: function(nextProps) {
-    this.setState({className: 'tile active'});
+    this.setState({className: 'tile active animated pulse'});
   },
   shouldComponentUpdate:function(nextProps, nextState) {
     return nextProps.data === nextProps.currentNumber;
@@ -101,9 +103,7 @@ var Tile = React.createClass({
 var NumberComponent = React.createClass({
   render: function() {
     return (
-      <div>
-        <span>{this.props.number}</span>
-      </div>
+      <div className="animated pulse"><span>{this.props.number}</span></div>
     )
   }
 });
